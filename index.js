@@ -22,6 +22,12 @@ async function run() {
   try {
     await client.connect();
     const bookCollections = client.db("bookhouse").collection("book");
+
+    app.get('/books', async (req, res) => {
+      const query = {};
+      const books = await bookCollections.find(query).toArray();
+      res.send(books);
+    })
    
 
 
