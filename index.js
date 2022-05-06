@@ -33,6 +33,22 @@ async function run() {
       const book = await bookCollections.findOne({ _id: new ObjectId(req.params.id) });
       res.send(book);
     })
+
+    app.put('/books/:id', async (req, res) => {
+      const id = req.params.id;
+      const updatedQunatity = req.body.quantity;
+      const updatedSold = req.body.sold;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const update = { $set: { quantity: updatedQunatity,sold:updatedSold } };
+      const result = await bookCollections.updateOne(filter, update, options);
+      res.send(result);
+    })
+
+    
+    
+
+  
    
 
 
