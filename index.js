@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
+const jwt = require("jsonwebtoken");
 const port = process.env.PORT || 5000;
 const app = express();
 
@@ -20,6 +21,15 @@ async function run() {
     await client.connect();
     const bookCollections = client.db("bookhouse").collection("book");
    
+    app.post('/login', async (req, res) => { 
+      const user = req.body;
+      const accessToken = jwt.sign({ user }, process.env.ACCESS_TOKEN_KEY, {
+        expiresIn: "12h",
+      });
+      res.send({ accessToken });
+
+
+    })
 
     app.get("/books", async (req, res) => {
       const query = {};
